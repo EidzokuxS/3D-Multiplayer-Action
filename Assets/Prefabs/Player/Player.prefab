@@ -411,7 +411,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   _playerData: {fileID: 11400000, guid: f90155368c4bed74f8405f722c706909, type: 2}
-  _ground:
+  _groundLayer:
     serializedVersion: 2
     m_Bits: 128
 --- !u!114 &5155148976854384545

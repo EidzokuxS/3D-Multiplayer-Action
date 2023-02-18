@@ -32,16 +32,16 @@ namespace Arcade3D
         }
 
         #region Server
-        public override void OnStartServer() => Player.OnScoreChanged += HandleScoreChange;
+        public override void OnStartServer() => Player.OnScoreChanged += HandleGameState;
 
-        public override void OnStopServer() => Player.OnScoreChanged -= HandleScoreChange;
+        public override void OnStopServer() => Player.OnScoreChanged -= HandleGameState;
 
         [ServerCallback]
         public void StartRound() => RpcStartRound();
 
         public void ShowRoundWinner(string winner) => RpcShowRoundWinner(winner);
 
-        private void HandleScoreChange()
+        private void HandleGameState()
         {
             IList<Player> players = Room.GamePlayers;
 
@@ -53,9 +53,7 @@ namespace Arcade3D
                 return;
 
             ShowRoundWinner(topPlayer.PlayerName);
-
             ResetPlayersScore(players);
-
             StartCountdown();
         }
 
@@ -85,10 +83,11 @@ namespace Arcade3D
         #region Client
 
         [ClientRpc]
-        private void RpcStartCountdown()
-        {
-            _animator.enabled = true;
-        }
+        private void RpcStartCountdown() => _animator.enabled = true;
+
+        [ClientRpc]
+        private void RpcShowRoundWinner(string winnerName) => OnWinnerDetermined?.Invoke(winnerName);
+
         [ClientRpc]
         private void RpcStartRound()
         {
@@ -96,8 +95,6 @@ namespace Arcade3D
             Room.RespawnPlayers();
         }
 
-        [ClientRpc]
-        private void RpcShowRoundWinner(string winnerName) => OnWinnerDetermined?.Invoke(winnerName);
         #endregion
     }
 }

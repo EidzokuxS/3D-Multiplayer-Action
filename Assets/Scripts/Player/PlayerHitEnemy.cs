@@ -15,8 +15,8 @@ namespace Arcade3D
         private void Awake()
         {
             InitializeComponents();
-
         }
+
         private void OnCollisionEnter(Collision collision)
         {
             if (!collision.collider.TryGetComponent(out PlayerHitEnemy player))
@@ -25,7 +25,7 @@ namespace Arcade3D
             if (player.Equals(this))
                 return;
 
-            Hit(player);
+            HitEvent(player);
         }
         #endregion
 
@@ -36,7 +36,7 @@ namespace Arcade3D
             PlayerState = GetComponent<PlayerState>();
         }
 
-        private void Hit(PlayerHitEnemy target)
+        private void HitEvent(PlayerHitEnemy target)
         {
             if (!PlayerState.Dashing || PlayerState.Immune)
                 return;
@@ -46,7 +46,7 @@ namespace Arcade3D
             if (enemy.PlayerState.Immune)
                 return;
 
-            Player.CmdSetImmutable(enemy.PlayerState);
+            Player.CmdSetImmune(enemy.PlayerState);
             Player.CmdAddScore();
         }
 

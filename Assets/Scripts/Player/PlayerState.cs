@@ -9,7 +9,7 @@ namespace Arcade3D
         #region Properties
 
         [SerializeField] private PlayerData _playerData;
-        [SerializeField] private LayerMask _ground;
+        [SerializeField] private LayerMask _groundLayer;
 
         private readonly float _heightScale = 0.5f;
         private readonly float _adjustRayLength = 0.2f;
@@ -39,7 +39,7 @@ namespace Arcade3D
 
         #region Public API
         public void ChangeDashState() => Dashing = !Dashing;
-        public IEnumerator SetImmutable()
+        public IEnumerator SetImmune()
         {
             _immune = true;
             yield return new WaitForSeconds(_playerData._immuneTimer);
@@ -51,12 +51,10 @@ namespace Arcade3D
         #region Private API
         private void CheckGround()
         {
-            Grounded = Physics.Raycast(transform.position, Vector3.down, _playerData._playerHeight * _heightScale + _adjustRayLength, _ground);
+            Grounded = Physics.Raycast(transform.position, Vector3.down, _playerData._playerHeight * _heightScale + _adjustRayLength, _groundLayer);
         }
-        private void HandleColorChange(bool old, bool newL)
-        {
-            ChangePlayerColor();
-        }
+        private void HandleColorChange(bool old, bool newL) => ChangePlayerColor();
+
         private void ChangePlayerColor()
         {
             if (Immune)

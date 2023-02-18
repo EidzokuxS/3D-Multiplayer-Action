@@ -7,10 +7,14 @@ namespace Arcade3D
 {
     public class UIScoreboard : NetworkBehaviour
     {
+        #region Properties
+
         [SerializeField] private GameObject _scoreboardLinePrefab;
         [SerializeField] private Transform _linesHolder;
 
-        private Dictionary<string, GameObject> _scoreboardLines = new();
+        private readonly Dictionary<string, GameObject> _scoreboardLines = new();
+
+        #endregion
 
         private NetworkManagerPvP room;
         private NetworkManagerPvP Room
@@ -24,23 +28,28 @@ namespace Arcade3D
             }
         }
 
+        #region NetworkBehaviour overrides
         public override void OnStartClient()
         {
-            print("hello");
-            base.OnStartClient();
             Player.OnPlayerSpawned += UpdateScoreboard;
             Player.OnScoreChanged += UpdateScoreboard;
         }
 
         public override void OnStopClient()
         {
-            base.OnStopClient();
+            Player.OnPlayerSpawned -= UpdateScoreboard;
+            Player.OnScoreChanged -= UpdateScoreboard;
         }
 
+        #endregion
+
+        #region Public API
 
         [Client]
         public void UpdateScoreboard()
         {
+            ClearScoreboard();
+
             foreach (Player player in Room.GamePlayers)
             {
                 if (!_scoreboardLines.ContainsKey(player.PlayerName))
@@ -52,8 +61,12 @@ namespace Arcade3D
             }
         }
 
+        #endregion
+
+        #region Private API
+
         [Client]
-        public void ClearScoreboard()
+        private void ClearScoreboard()
         {
             foreach (GameObject scoreboardLine in _scoreboardLines.Values)
             {
@@ -61,6 +74,8 @@ namespace Arcade3D
             }
             _scoreboardLines.Clear();
         }
+
+        #endregion
     }
 }
 

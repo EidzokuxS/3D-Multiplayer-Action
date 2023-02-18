@@ -5,6 +5,8 @@ namespace Arcade3D
 {
     public class ThirdPersonCamera : NetworkBehaviour
     {
+        #region Properties
+
         [SerializeField] private GameObject _cameraHolder;
         [SerializeField] private float _cameraDistance = 10f;
         [SerializeField] private float _mouseSensitivity = 2f;
@@ -12,14 +14,27 @@ namespace Arcade3D
         private float _yaw;
         private float _pitch;
 
-        public override void OnStartAuthority()
-        {
-            _cameraHolder.SetActive(true);
-        }
+        #endregion
 
+        #region Unity Events
         private void Update()
         {
             SetLookDirection();
+        }
+
+        #endregion
+
+        #region NetworkBehaviour overrides
+        public override void OnStartAuthority() => _cameraHolder.SetActive(true);
+
+        #endregion
+
+        #region Private API
+        private void GetLookDirection()
+        {
+            _yaw += Input.GetAxis("Mouse X") * _mouseSensitivity;
+            _pitch -= Input.GetAxis("Mouse Y") * _mouseSensitivity;
+            _pitch = Mathf.Clamp(_pitch, -90f, 90f);
         }
 
         private void SetLookDirection()
@@ -38,11 +53,7 @@ namespace Arcade3D
 
             transform.rotation = Quaternion.Euler(0f, _yaw, 0f);
         }
-        private void GetLookDirection()
-        {
-            _yaw += Input.GetAxis("Mouse X") * _mouseSensitivity;
-            _pitch -= Input.GetAxis("Mouse Y") * _mouseSensitivity;
-            _pitch = Mathf.Clamp(_pitch, -90f, 90f);
-        }
+
+        #endregion
     }
 }

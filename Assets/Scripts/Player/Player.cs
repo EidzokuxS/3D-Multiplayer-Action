@@ -96,21 +96,12 @@ namespace Arcade3D
         }
 
         [Command]
-        public void CmdAddScore()
-        {
-            _score++;
-        }
-        [Command]
-        public void CmdSetImmutable(PlayerState target)
-        {
-            print("SetImmutable");
-            StartCoroutine(target.SetImmutable());
-        }
+        public void CmdAddScore() => _score++;
 
-        private void HandleScoreChange(int oldValue, int newValue)
-        {
-            OnScoreChanged?.Invoke();
-        }
+        [Command]
+        public void CmdSetImmune(PlayerState target) => StartCoroutine(target.SetImmune());
+
+        private void HandleScoreChange(int oldValue, int newValue) => OnScoreChanged?.Invoke();
 
         #endregion
     }

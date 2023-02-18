@@ -6,10 +6,10 @@ namespace Arcade3D
 {
     public class NetworkManagerPvP : NetworkRoomManager
     {
-        #region Fields
+        #region Properties
 
         [Header("UI")]
-        [SerializeField] private UIManager _canvasManager;
+        [SerializeField] private UIManager _uiManager;
         [SerializeField] private UILobby _lobbyUI;
         public UILobby LobbyUI => _lobbyUI;
 
@@ -84,7 +84,10 @@ namespace Arcade3D
 
         #endregion
 
-        #region Public API
+        #region Public API        
+
+        public void SetAddress(string address) => networkAddress = address;
+
         public void RespawnPlayers()
         {
             startPositions.ForEach(x => x.gameObject.SetActive(true));
@@ -93,6 +96,7 @@ namespace Arcade3D
                 MovePlayerToSpawnPoint(player);
             }
         }
+
         #endregion
 
         #region Private API

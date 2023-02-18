@@ -30,10 +30,7 @@ namespace Arcade3D
 
         #region Public API
 
-        public void QuitGame()
-        {
-            Application.Quit();
-        }
+        public void QuitGame() => Application.Quit();
 
         public void SetMousePointerState(bool visibility, CursorLockMode mode)
         {

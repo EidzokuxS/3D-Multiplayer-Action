@@ -37,10 +37,11 @@ namespace Arcade3D
         public override void OnStartClient()
         {
             Room.RoomPlayers.Add(this);
+            UIManager.Instance.SwitchCanvas(CanvasType.Lobby);
 
             _lobbyUI = Room.LobbyUI;
             _lobbyUI.SetPlayerReadiness((int)netId, false);
-            _lobbyUI.SetPressReadyButtonEvent(CmdSetReadiness);
+            _lobbyUI.SetReadyButtonOnConnect(CmdSetReadiness);
 
             UpdateDisplay();
         }
@@ -48,7 +49,7 @@ namespace Arcade3D
         public override void OnStopClient()
         {
             _lobbyUI.SetPlayerReadiness((int)netId);
-            _lobbyUI.SetPressReadyButtonEvent(CmdSetReadiness);
+            _lobbyUI.SetReadyButtonOnConnect(CmdSetReadiness);
             _lobbyUI.ResetReadyButtonOnDisconnect();
 
             Room.RoomPlayers.Remove(this);

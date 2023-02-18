@@ -20,7 +20,7 @@ namespace Arcade3D
         [SerializeField] private ButtonType _buttonType;
 
         private NetworkManagerPvP _networkManager;
-        private UIManager _canvasManager;
+        private UIManager _uiManager;
         private Button _menuButton;
 
         #endregion
@@ -57,41 +57,29 @@ namespace Arcade3D
                     break;
             }
         }
+        private void JoinGameLobby() => _networkManager.StartClient();
 
-        private static void Exit()
-        {
-            Application.Quit();
-        }
+        private void HostGameLobby() => _networkManager.StartHost();
+
+        private static void Exit() => Application.Quit();
 
         private void OpenMainMenu()
         {
             SceneManager.LoadScene(0);
-            _canvasManager.SwitchCanvas(CanvasType.MainMenu);
+            _uiManager.SwitchCanvas(CanvasType.MainMenu);
         }
 
         private void StartGame()
         {
-            _canvasManager.SetMousePointerState(false, CursorLockMode.Locked);
+            _uiManager.SetMousePointerState(false, CursorLockMode.Locked);
             _networkManager.ServerChangeScene(_networkManager.GameplayScene);
-        }
-
-        private void JoinGameLobby()
-        {
-            _networkManager.StartClient();
-            _canvasManager.SwitchCanvas(CanvasType.Lobby);
-        }
-
-        private void HostGameLobby()
-        {
-            _networkManager.StartHost();
-            _canvasManager.SwitchCanvas(CanvasType.Lobby);
         }
 
         private void InitiallizeButton()
         {
             _menuButton = GetComponent<Button>();
             _menuButton.onClick.AddListener(OnButtonClicked);
-            _canvasManager = UIManager.Instance;
+            _uiManager = UIManager.Instance;
             _networkManager = FindAnyObjectByType<NetworkManagerPvP>();
         }
 
