@@ -1,7 +1,7 @@
 # 3D Multiplayer Action
  
 <h2 style="text-align: left;"><strong>WIP!</strong></h2>
-<h3 style="text-align: left;">This is a simple prototype of multiplayer 3D action game.</h3>
+<h3 style="text-align: left;">This is a simple prototype of multiplayer 3D action game. (Unity 2021.3.18f1) </h3>
 <p style="text-align: left;">Main goal is to earn points through bumping into opponents while dashing.</p>
 <h4 style="text-align: left;"><span style="text-decoration: underline;">What's ready:</span></h4>
 <ul style="list-style-type: circle;">
